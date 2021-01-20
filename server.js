@@ -20,8 +20,23 @@ app.get("/", function (req, res) {
 
 
 // your first API endpoint... 
-app.get("/api/hello", function (req, res) {
-  res.json({greeting: 'hello API'});
+app.get("/api/timestamp/:date", function (req, res) {
+
+    let date = null; 
+    let obj = {};
+
+    if(req.params.date.includes("-")){
+       date = new Date(req.params.date);
+       obj.unix = date.getTime();
+       obj.utc = date.toUTCString();
+    }else{
+      obj.unix = req.params.date;
+      date = new Date();
+      date.setTime(req.params.date);
+      obj.utc = date.toUTCString();
+    }
+
+  res.json(obj);
 });
 
 
